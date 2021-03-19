@@ -4,7 +4,7 @@ class Counter extends React.Component {
         result: this.props.result,
     }
 
-    handleMathClick(type, number = 1) {
+    handleMathClick = (type, number = 1) => {
         if (type === "reset") {
             this.setState(prevState => ({
                 count: prevState.count + 1,
@@ -21,21 +21,57 @@ class Counter extends React.Component {
     render () {
         return (
             <React.Fragment>
-                <button onClick={this.handleMathClick.bind(this, "substraction", -10)}>-10</button>
-                <button onClick={this.handleMathClick.bind(this, "substraction", -1)}>-</button>
-                <button onClick={() => this.handleMathClick("reset", 0)}>Reset</button>
-                <button onClick={() => this.handleMathClick("substraction", 1)}>+</button>
-                <button onClick={() => this.handleMathClick("substraction", 10)}>+10</button>
-                <h1>Clicks: {this.state.count}</h1>
-                <h1>Result: {this.state.result}</h1>
+                <MathButton 
+                    name="-10" 
+                    number="-10"
+                    type="" 
+                    click={this.handleMathClick}
+                />
+                <MathButton 
+                    name="-1" 
+                    number="-1" 
+                    type="" 
+                    click={this.handleMathClick}
+                />
+                <MathButton 
+                    name="reset" 
+                    number="0" 
+                    type="reset" 
+                    click={this.handleMathClick}
+                />
+                <MathButton 
+                    name="+1" 
+                    number="1" 
+                    type="" 
+                    click={this.handleMathClick}
+                />
+                <MathButton 
+                    name="+10" 
+                    number="10" 
+                    type="" 
+                    click={this.handleMathClick}
+                />
+                <ResultPanel count={this.state.count} result={this.state.result}/>
             </React.Fragment>
         )
     }
 }
 
+const MathButton = (props) => {
+    const number = parseInt(props.number)
+    return (
+        <button onClick={() => props.click(props.type, number)}>{props.name}</button> 
+    )
+}
 
-
-
+const ResultPanel = (props) => {
+    return (
+        <React.Fragment>
+            <h1>Clicks: {props.count}{props.count>10 ? <span>. Overload!</span> : null}</h1>
+            <h1>Result: {props.result}</h1>
+        </React.Fragment>
+    )
+}
 
 
 
