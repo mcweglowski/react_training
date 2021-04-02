@@ -1,6 +1,7 @@
 class Omen extends React.Component {
     state = {
         omenId: "-1",
+        newOmen: "",
     }
 
     static defaultProps = {
@@ -38,6 +39,33 @@ class Omen extends React.Component {
         return omen.text
     }
 
+    addOmen = (e) => {
+        if ("" === this.state.newOmen) {
+            return;
+        }
+
+        const nextId = this.props.omens.length;
+
+        let item = {
+            id: nextId,
+            text: this.state.newOmen,
+        };
+
+        this.props.omens.push(item);
+
+        this.setState({
+            newOmen: "",
+        })
+        
+        alert(this.props.omens.map(omen => omen.text))
+    }
+    
+    changeNewOmen = (e) => {
+        this.setState({
+            newOmen: e.target.value,
+        })
+    }
+
     render() {
         const {omenId} = this.state;
 
@@ -47,7 +75,16 @@ class Omen extends React.Component {
                     onClick={this.handleClick}
                     >The Omen
                 </button>
-                <h1>{-1 < omenId ? this.getOmen(omenId) : ""}</h1>
+                <br/>
+                <input 
+                    type="text"
+                    value = {this.state.newOmen}
+                    onChange = {this.changeNewOmen}
+                />
+                <button
+                    onClick={this.addOmen}
+                >Add omen</button>
+                {-1 < omenId ? <h1>{this.getOmen(omenId)}</h1> : ""}
             </React.Fragment>
         )
     }
