@@ -14,21 +14,29 @@ function App() {
       title: `Title ${index}`,
       body: `Message ${index} body...`,
     });
-  }, 8000)
+  }, 5000)
 
   const [data, setData] = React.useState([...source]);
-
+  const idInterval = React.useRef(0);
 
   
 
 
 
   function getData() {
-    setData([...source]);
+    if (data.length !== source.length) {
+      setData([...source]);
+    } else {
+      console.log("No need to update");
+    }
   }
 
-  useEffect(() =>
-    setInterval(() => getData(), 5000)
+  useEffect(() => {
+    idInterval.current = setInterval(() => getData(), 1000);
+
+    return() => {
+      clearInterval(idInterval.current);
+    }}
   , [])
 
   const comments = data.map(comment => (
